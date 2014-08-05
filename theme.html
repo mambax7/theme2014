@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="<{$xoops_langcode}>">
+  <head>
+    <{assign var=theme_name value=$xoTheme->folderName}>
+
+    <{includeq file="$xoops_rootpath/modules/tadtools/themes_tpl/get_var.html"}>
+
+    <meta charset="<{$xoops_charset}>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="<{$xoops_meta_robots}>" />
+    <meta name="keywords" content="<{$xoops_meta_keywords}>" />
+    <meta name="description" content="<{$xoops_meta_description}>" />
+    <meta name="rating" content="<{$xoops_meta_rating}>" />
+    <meta name="author" content="<{$xoops_meta_author}>" />
+    <meta name="copyright" content="<{$xoops_meta_copyright}>" />
+    <meta name="generator" content="XOOPS" />
+
+    <title><{$xoops_sitename}> - <{$xoops_pagetitle}></title>
+
+    <!-- Rss -->
+    <link rel="alternate" type="application/rss+xml" title="" href="<{xoAppUrl backend.php}>" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/ico" href="<{xoImgUrl icons/favicon.ico}>" />
+    <link rel="icon" type="image/png" href="<{xoImgUrl icons/favicon.png}>" />
+
+    <!-- Sheet Css -->
+    <link rel="stylesheet" type="text/css" media="all" title="Style sheet" href="<{xoAppUrl xoops.css}>" />
+    <link rel="stylesheet" type="text/css" media="all" title="Style sheet" href="<{xoImgUrl css/style.css}>" />
+    <link rel="stylesheet" type="text/css" media="all" title="Style sheet" href="<{xoImgUrl css/xoops.css}>" />
+    <!-- Bootstrap -->
+    <link href="<{xoAppUrl modules/tadtools/bootstrap/css/bootstrap.css}>" rel="stylesheet" media="screen">
+
+
+    <!-- customized header contents -->
+    <{$xoops_module_header}>
+
+    <style type="text/css">
+      body{
+        color:<{$font_color}>;
+        font-size:<{$font_size}>;
+      }
+
+      a{
+        color:<{$link_color}>;
+      }
+
+      a:hover{
+        color:<{$hover_color}>;
+      }
+
+      <{includeq file="$xoops_rootpath/modules/tadtools/themes_tpl/theme_css_blocks.html"}>
+
+    </style>
+
+
+    <script src="<{xoImgUrl sliderman/js/sliderman.1.3.8.js}>"></script>
+    <link rel="stylesheet" type="text/css" href="<{xoImgUrl sliderman/css/sliderman.css}>" />
+
+  </head>
+  <body>
+    <div id="xoops_theme_container">
+      <!--頁首-->
+      <div id="xoops_theme_head">
+        <div>
+          <div id="site_name">
+            <a href="<{xoAppUrl index.php}>"><{$xoops_sitename}></a>
+          </div>
+
+
+          <{if $xoops_isuser}>
+            <{xoMemberInfo assign=mem}>
+            <div id="site_slogan">
+              <{if $mem.name}>
+                <{$mem.user_from}> <{$mem.name}> <{$smarty.const._T2014_HELLO}>
+              <{else}>
+                <{$mem.user_from}> <{$mem.uname}> <{$smarty.const._T2014_HELLO}>
+              <{/if}>
+            </div>
+          <{else}>
+            <div id="site_slogan"><{$xoops_slogan}></div>
+          <{/if}>
+        </div>
+
+      </div>
+
+      <!--導覽列-->
+      <div id="cssmenu">
+         <ul>
+          <li class="active"><a href='<{xoAppUrl index.php}>'><span><i class="icon-home icon-white"></i></span></a></li>
+          <{foreach from=$menu_var item=m}>
+            <li <{if $m.submenu}>class="has-sub"<{/if}>>
+              <a href="<{if $m.submenu}>#<{else}><{$m.url}><{/if}>" target="<{$m.target}>">
+                <i class="<{$m.icon}> icon-white"></i>
+                <span><{$m.title}></span>
+              </a>
+              <{if $m.submenu}>
+                <ul>
+                  <{foreach from=$m.submenu item=m2}>
+                    <li class="active">
+                      <a href="<{$m2.url}>" target="<{$m2.target}>">
+                        <i class="<{$m2.icon}>"></i>
+                        <span><{$m2.title}></span>
+                      </a>
+                      <{if $m2.submenu}>
+                        <ul>
+                          <{foreach from=$m2.submenu item=m3}>
+                            <li class="active">
+                              <a href="<{$m3.url}>" target="<{$m3.target}>">
+                                <i class="<{$m3.icon}>"></i>
+                                <span><{$m3.title}></span>
+                              </a>
+                            </li>
+                          <{/foreach}>
+                        </ul>
+                      <{/if}>
+                    </li>
+                  <{/foreach}>
+                </ul>
+              <{/if}>
+            </li>
+          <{/foreach}>
+
+          <{xoInboxCount assign=pmcount}>
+          <{if $pmcount}>
+            <li><a href="<{xoAppUrl viewpmsg.php}>" title="<{$pmcount|string_format:$smarty.const._T2014_HAVE_MAIL}>"><span  style="display:block;width:48px;text-align:center;background:transparent url(<{xoImgUrl images/mail.png}>) no-repeat center center"><span class="label label-important"><{$pmcount}></span></span></a></li>
+          <{else}>
+            <li><a href="<{xoAppUrl viewpmsg.php}>"><{$smarty.const._T2014_MAIL}></a></li>
+          <{/if}>
+
+          <{if $xoops_isadmin}>
+            <li><a href="<{xoAppUrl admin.php}>"><span>後台管理</span></a></li>
+          <{/if}>
+
+          <{if $xoops_isuser}>
+            <li><a href="<{xoAppUrl user.php?op=logout}>"><span>登出
+              <{php}>
+              global $xoopsUser;
+              echo $xoopsUser->name();
+              <{/php}>
+            </span></a></li>
+          <{else}>
+            <li><a href="<{xoAppUrl user.php}>"><span>登入</span></a></li>
+          <{/if}>
+         </ul>
+      </div>
+
+
+
+      <!--內容區-->
+      <div id="xoops_theme_content">
+        <div style="padding:0px;margin:0px;">
+          <div id="SliderName_3" class="SliderName_3" style="padding:0px;margin:0px;">
+            <{foreach from=$slider_var item=slide}>
+              <img src="<{$slide.file_url}>" alt="<{$slide.description}>" title="<{$slide.description}>" />
+            <div class="SliderName_3Description"><{$slide.description}></div>
+            <{/foreach}>
+          </div>
+          <div class="c"></div>
+
+          <script type="text/javascript">
+            demo3Effect1 = {name: 'myEffect31', top: true, move: true, duration: 400};
+            demo3Effect2 = {name: 'myEffect32', right: true, move: true, duration: 400};
+            demo3Effect3 = {name: 'myEffect33', bottom: true, move: true, duration: 400};
+            demo3Effect4 = {name: 'myEffect34', left: true, move: true, duration: 400};
+            demo3Effect5 = {name: 'myEffect35', rows: 3, cols: 9, delay: 50, duration: 100, order: 'random', fade: true};
+            demo3Effect6 = {name: 'myEffect36', rows: 2, cols: 4, delay: 100, duration: 400, order: 'random', fade: true, chess: true};
+
+            effectsDemo3 = [demo3Effect1,demo3Effect2,demo3Effect3,demo3Effect4,demo3Effect5,demo3Effect6,'blinds'];
+
+            var demoSlider_3 = Sliderman.slider({
+              container: 'SliderName_3',
+              width: 960,
+              height: 150,
+              effects: effectsDemo3,
+              display: {
+                autoplay: 3000,
+                buttons: { hide: true, opacity: 1, prev: {className: 'SliderNamePrev_3', label: ''}, next: {className: 'SliderNameNext_3', label: ''} },
+                description: {background: '#000000', opacity: 0.4, height: 30, position: 'bottom'},
+              }
+            });
+          </script>
+
+          <div class="c"></div>
+        </div>
+        <{includeq file="$xoops_rootpath/modules/tadtools/themes_tpl/$theme_type.html"}>
+      </div>
+    </div>
+
+    <!--頁尾-->
+    <div id="xoops_theme_foot">
+      <div id="theme_foot">
+        <div id="foot_content">
+          <!--頁尾區-->
+          <{$xoops_footer}>
+        </div>
+      </div>
+    </div>
+
+
+    <script type='text/javascript'>
+      if(typeof jQuery == 'undefined') {
+      document.write("<script type='text/javascript' src='<{xoAppUrl modules/tadtools/jquery/jquery.js}>'><\/script>");
+      }
+    </script>
+    <script src="<{xoAppUrl modules/tadtools/bootstrap/js/bootstrap.min.js}>"></script>
+
+    <link rel="stylesheet" type="text/css" href="<{xoImgUrl menu/styles.css}>" />
+    <script type="text/javascript" src="<{xoImgUrl menu/menu_jquery.js}>"></script>
+
+    <{includeq file="$xoops_rootpath/modules/tadtools/themes_tpl/my_js.html"}>
+
+
+    <{includeq file="$xoops_rootpath/modules/tadtools/themes_tpl/show_var.html"}>
+  </body>
+</html>
